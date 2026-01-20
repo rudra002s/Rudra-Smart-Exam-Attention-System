@@ -37,29 +37,52 @@ async function predict() {
         a.probability > b.probability ? a : b
     );
 
-    const label = best.className.trim().toUpperCase();
+    const label = best.className.trim();
+    const cleanLabel = label.toUpperCase();
     const confidence = (best.probability * 100).toFixed(1);
 
+    // STATUS
     statusText.innerText = "STATUS: " + label;
-    confidenceText.innerText = "CONFIDENCE LEVEL: " + confidence + "%";
 
-    // 🔁 RESET FIRST
-mainBox.classList.remove("attentive", "inattentive");
+    // CONFIDENCE LOGIC
+    let displayConfidence = confidence;
 
-const cleanLabel = label.toUpperCase().trim();
+    if (cleanLabel.includes("NO FACE")) {
+        displayConfidence = "--";
+    } 
+    else if (cleanLabel.includes("LOOKING AWAY")) {
+        displayConfidence = Math.max(0, confidence - 30).toFixed(1);
+    }
 
-if (cleanLabel.includes("LOOKING IN")) {
-    mainBox.classList.add("attentive");      // 🟢
-} 
-else if (
-    cleanLabel.includes("LOOKING AWAY") ||
-    cleanLabel.includes("NO FACE")
-) {
-    mainBox.classList.add("inattentive");    // 🔴
+    confidenceText.innerText = "CONFIDENCE LEVEL: " + displayConfidence;
+
+    // RESET BOX COLOR
+    mainBox.classList.remove("attentive", "inattentive");
+
+    if (cleanLabel.includes("LOOKING IN")) {
+        mainBox.classList.add("attentive");      // 🟢
+    } else {
+        mainBox.classList.add("inattentive");    // 🔴
+    }
+
+    // 🚨 ALERT GLOW CONTROL (THIS IS THE KEY PART)
+    const alertBox = document.querySelector(".alert_box");
+
+    // alert ALWAYS visible → only glow changes
+    alertBox.classList.remove("active");
+
+    if (
+        cleanLabel.includes("LOOKING AWAY") ||
+        cleanLabel.includes("NO FACE")
+    ) {
+        alertBox.classList.add("active");   // 🔥 STRONG GLOW
+    }
 }
 
 
-}
+
+
+
 
 
 init().catch(err => console.error("INIT ERROR:", err));
