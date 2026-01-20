@@ -1,6 +1,6 @@
 console.log("exam.js loaded");
 
-const URL = "https://teachablemachine.withgoogle.com/models/I0Au3TVEx/";
+const URL = "https://teachablemachine.withgoogle.com/models/TYcMqZS0N/";
 
 let model, webcam;
 
@@ -44,14 +44,21 @@ async function predict() {
     confidenceText.innerText = "CONFIDENCE LEVEL: " + confidence + "%";
 
     // 🔁 RESET FIRST
-    mainBox.classList.remove("attentive", "inattentive");
+mainBox.classList.remove("attentive", "inattentive");
 
-    // ✅ ROBUST CHECK (THIS FIXES EVERYTHING)
-    if (label.includes("LOOKING IN")) {
-        mainBox.classList.add("attentive");   // 🟢
-    } else if (label.includes("LOOKING AWAY")) {
-        mainBox.classList.add("inattentive"); // 🔴
-    }
+const cleanLabel = label.toUpperCase().trim();
+
+if (cleanLabel.includes("LOOKING IN")) {
+    mainBox.classList.add("attentive");      // 🟢
+} 
+else if (
+    cleanLabel.includes("LOOKING AWAY") ||
+    cleanLabel.includes("NO FACE")
+) {
+    mainBox.classList.add("inattentive");    // 🔴
+}
+
+
 }
 
 
