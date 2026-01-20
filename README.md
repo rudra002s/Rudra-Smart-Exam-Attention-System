@@ -29,9 +29,3 @@ Google Teachable Machine – Training the attention detection model
 👤 Author
 Rudra Sharma
 Student | USAR,GGSIPU
-
-The webcam feed is passed to the trained model
-
-The class with the highest probability is selected
-
-UI updates instantly based on the prediction
