@@ -2,6 +2,8 @@
 
 Online exams make it difficult to ensure whether a student is actually paying attention. This project is a real-time AI-based attention monitoring system that observes the student through their webcam and gives instant visual feedback based on their attentiveness.
 
+LIVE DEMO : https://rudra-smart-exam-attention-system.vercel.app?_vercel_share=sot1eJkb95m2MtTYtZ0s0F7DknTkUvZ4
+
 The system detects whether the user is:
 👀 Looking at the screen
 ↔️ Looking away from the screen
