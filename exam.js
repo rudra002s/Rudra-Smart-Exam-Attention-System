@@ -2,8 +2,9 @@ console.log("exam.js loaded");
 
 const URL = "https://teachablemachine.withgoogle.com/models/I0Au3TVEx/";
 
-let model, webcam, maxPredictions;
+let model, webcam;
 
+const wrapper = document.querySelector(".video_wrapper");
 const mainBox = document.querySelector(".main_box");
 const statusText = document.querySelector("p1");
 const confidenceText = document.querySelector("p2");
@@ -13,14 +14,14 @@ async function init() {
     const metadataURL = URL + "metadata.json";
 
     model = await tmImage.load(modelURL, metadataURL);
-    maxPredictions = model.getTotalClasses();
 
-    webcam = new tmImage.Webcam(640, 480, true); 
+    // ✅ FIXED RESOLUTION (perfect fit)
+    webcam = new tmImage.Webcam(480, 360, true);
     await webcam.setup();
     await webcam.play();
-    window.requestAnimationFrame(loop);
 
     mainBox.appendChild(webcam.canvas);
+    window.requestAnimationFrame(loop);
 }
 
 async function loop() {
@@ -32,27 +33,27 @@ async function loop() {
 async function predict() {
     const predictions = await model.predict(webcam.canvas);
 
-    let bestPrediction = predictions[0];
-    for (let i = 1; i < predictions.length; i++) {
-        if (predictions[i].probability > bestPrediction.probability) {
-            bestPrediction = predictions[i];
-        }
-    }
+    let best = predictions.reduce((a, b) =>
+        a.probability > b.probability ? a : b
+    );
 
-    const label = bestPrediction.className;
-    const confidence = (bestPrediction.probability * 100).toFixed(1);
+    const label = best.className.trim().toUpperCase();
+    const confidence = (best.probability * 100).toFixed(1);
 
     statusText.innerText = "STATUS: " + label;
     confidenceText.innerText = "CONFIDENCE LEVEL: " + confidence + "%";
 
+    // 🔁 RESET FIRST
     mainBox.classList.remove("attentive", "inattentive");
 
-    if (label === "LOOKING IN THE SCREEN") {
-    mainBox.classList.add("attentive");   // 🟢
-} else {
-    mainBox.classList.add("inattentive"); // 🔴
+    // ✅ ROBUST CHECK (THIS FIXES EVERYTHING)
+    if (label.includes("LOOKING IN")) {
+        mainBox.classList.add("attentive");   // 🟢
+    } else if (label.includes("LOOKING AWAY")) {
+        mainBox.classList.add("inattentive"); // 🔴
+    }
 }
 
-}
 
 init().catch(err => console.error("INIT ERROR:", err));
+
