@@ -14,8 +14,6 @@ body{
         transparent 10px,
         transparent 20px
     );
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    overflow-y: hidden; 
 }
 
 nav{
@@ -24,7 +22,6 @@ nav{
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bolder;
 }
 
 .main_box{
@@ -64,22 +61,19 @@ nav{
     background-color: #ffff78;
     text-align: center;
     font-weight: bolder;
-    font-family: 'Brush Script MT', cursive;
 }
-.p1{
-    margin-top: 20px;
+p1{
+    display: flex;
+    text-align: center;
+    justify-content: center;
     font-size: 18px;
+    font-weight: bolder;
 }
-
-.p1 span {
-    font-weight: bold;
-    color: rgb(83, 213, 83);
-}
-
-.p1 {
-    font-size: 13px;
-    color: #555;
-    margin-top: 8px;
-    font-weight: bold;
-    font-size: 15px;
+p2{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    font-size: 18px;
+    margin: 20px;
+    font-weight: bolder;
 }
