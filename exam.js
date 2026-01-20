@@ -4,10 +4,10 @@ const URL = "https://teachablemachine.withgoogle.com/models/TYcMqZS0N/";
 
 let model, webcam;
 
-const wrapper = document.querySelector(".video_wrapper");
 const mainBox = document.querySelector(".main_box");
 const statusText = document.querySelector("p1");
 const confidenceText = document.querySelector("p2");
+const alertBox = document.querySelector(".alert_box");
 
 async function init() {
     const modelURL = URL + "model.json";
@@ -15,7 +15,6 @@ async function init() {
 
     model = await tmImage.load(modelURL, metadataURL);
 
-    // ✅ FIXED RESOLUTION (perfect fit)
     webcam = new tmImage.Webcam(480, 360, true);
     await webcam.setup();
     await webcam.play();
@@ -33,7 +32,7 @@ async function loop() {
 async function predict() {
     const predictions = await model.predict(webcam.canvas);
 
-    let best = predictions.reduce((a, b) =>
+    const best = predictions.reduce((a, b) =>
         a.probability > b.probability ? a : b
     );
 
@@ -41,49 +40,34 @@ async function predict() {
     const cleanLabel = label.toUpperCase();
     const confidence = (best.probability * 100).toFixed(1);
 
-    // STATUS
     statusText.innerText = "STATUS: " + label;
 
-    // CONFIDENCE LOGIC
     let displayConfidence = confidence;
 
     if (cleanLabel.includes("NO FACE")) {
         displayConfidence = "--";
-    } 
-    else if (cleanLabel.includes("LOOKING AWAY")) {
+    } else if (cleanLabel.includes("LOOKING AWAY")) {
         displayConfidence = Math.max(0, confidence - 30).toFixed(1);
     }
 
-    confidenceText.innerText = "CONFIDENCE LEVEL: " + displayConfidence;
+    confidenceText.innerText =
+        "CONFIDENCE LEVEL: " + displayConfidence;
 
-    // RESET BOX COLOR
     mainBox.classList.remove("attentive", "inattentive");
 
     if (cleanLabel.includes("LOOKING IN")) {
-        mainBox.classList.add("attentive");      // 🟢
+        mainBox.classList.add("attentive");
     } else {
-        mainBox.classList.add("inattentive");    // 🔴
+        mainBox.classList.add("inattentive");
     }
 
-    // 🚨 ALERT GLOW CONTROL (THIS IS THE KEY PART)
-    const alertBox = document.querySelector(".alert_box");
-
-    // alert ALWAYS visible → only glow changes
-    alertBox.classList.remove("active");
-
-    if (
+    alertBox.classList.toggle(
+        "active",
         cleanLabel.includes("LOOKING AWAY") ||
         cleanLabel.includes("NO FACE")
-    ) {
-        alertBox.classList.add("active");   // 🔥 STRONG GLOW
-    }
+    );
 }
 
-
-
-
-
-
-
 init().catch(err => console.error("INIT ERROR:", err));
+
 
