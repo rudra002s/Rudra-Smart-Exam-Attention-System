@@ -1,3 +1,5 @@
+console.log("exam.js loaded");
+
 const URL = "https://teachablemachine.withgoogle.com/models/I0Au3TVEx/";
 
 let model, webcam, maxPredictions;
@@ -13,7 +15,7 @@ async function init() {
     model = await tmImage.load(modelURL, metadataURL);
     maxPredictions = model.getTotalClasses();
 
-    webcam = new tmImage.Webcam(500, 350, true);
+    webcam = new tmImage.Webcam(640, 480, true); 
     await webcam.setup();
     await webcam.play();
     window.requestAnimationFrame(loop);
@@ -45,11 +47,12 @@ async function predict() {
 
     mainBox.classList.remove("attentive", "inattentive");
 
-    if (label.toLowerCase().includes("screen")) {
-        mainBox.classList.add("attentive");   // 🟢 green
-    } else {
-        mainBox.classList.add("inattentive"); // 🔴 red
-    }
+    if (label === "LOOKING IN THE SCREEN") {
+    mainBox.classList.add("attentive");   // 🟢
+} else {
+    mainBox.classList.add("inattentive"); // 🔴
 }
 
-init();
+}
+
+init().catch(err => console.error("INIT ERROR:", err));
