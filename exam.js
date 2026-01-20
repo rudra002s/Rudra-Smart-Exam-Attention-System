@@ -1,4 +1,4 @@
-const URL = "https://teachablemachine.withgoogle.com/models/[...]";
+const URL = "https://teachablemachine.withgoogle.com/models/I0Au3TVEx/";
 
 let model, webcam, maxPredictions;
 
