@@ -1,22 +1,20 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body{
+body {
     height: 100vh;
     background-color: #f5f5f5;
-    background-image: repeating-linear-gradient(
-        45deg,
-        rgba(0,0,0,0.03),
-        rgba(0,0,0,0.03) 10px,
-        transparent 10px,
-        transparent 20px
-    );
+    background-image: repeating-linear-gradient(45deg,
+            rgba(0, 0, 0, 0.03),
+            rgba(0, 0, 0, 0.03) 10px,
+            transparent 10px,
+            transparent 20px);
 }
 
-nav{
+nav {
     height: 85px;
     background-color: rgb(150, 215, 221);
     display: flex;
@@ -24,35 +22,35 @@ nav{
     justify-content: center;
 }
 
-.main_box{
+.main_box {
     width: 500px;
     height: 38vh;
     margin: 35px auto;
     border-radius: 10px;
     border: 2px solid #222;
     background-color: transparent;
-    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
     transition: box-shadow 0.3s ease, border 0.3s ease;
 }
 
-.main_box.attentive{
+.main_box.attentive {
     border: 2px solid #22c55e;
-    box-shadow: 0 0 25px rgba(34,197,94,0.9);
+    box-shadow: 0 0 25px rgba(34, 197, 94, 0.9);
 }
 
-.main_box.inattentive{
+.main_box.inattentive {
     border: 2px solid #ef4444;
-    box-shadow: 0 0 25px rgba(239,68,68,0.9);
+    box-shadow: 0 0 25px rgba(239, 68, 68, 0.9);
 }
 
 .status,
-.confidence{
+.confidence {
     text-align: center;
     font-weight: bold;
     margin-top: 6px;
 }
 
-.alert_box{
+.alert_box {
     width: 650px;
     margin: 40px auto 0;
     padding: 16px 20px;
@@ -62,14 +60,16 @@ nav{
     text-align: center;
     font-weight: bolder;
 }
-p1{
+
+p1 {
     display: flex;
     text-align: center;
     justify-content: center;
     font-size: 18px;
     font-weight: bolder;
 }
-p2{
+
+p2 {
     display: flex;
     text-align: center;
     justify-content: center;
